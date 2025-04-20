@@ -282,6 +282,7 @@ async def fetch_content(url: str, ctx: Context) -> str:
 
 
 def main():
+    print(f"MCP DUCK DUCK GO STARTED!!!")
     mcp.run()
 
 
