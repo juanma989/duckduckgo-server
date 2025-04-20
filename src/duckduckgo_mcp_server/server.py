@@ -1,3 +1,4 @@
+import logging
 from mcp.server.fastmcp import FastMCP, Context
 import httpx
 from bs4 import BeautifulSoup
@@ -10,7 +11,7 @@ import asyncio
 from datetime import datetime, timedelta
 import time
 import re
-
+from mcp.types import ServerResult, ErrorData, TextContent, ImageContent
 
 @dataclass
 class SearchResult:
@@ -209,6 +210,45 @@ class WebContentFetcher:
 mcp = FastMCP("ddg-search")
 searcher = DuckDuckGoSearcher()
 fetcher = WebContentFetcher()
+
+
+def my_function(response, tool_name, tool_args):
+    if isinstance(response, ServerResult):
+        # Handle standard server results
+        logging.info(f"Post-processor: Processing server result for {tool_name}")
+        logging.debug(f"Post-processor: Full response: {response}")
+
+    elif isinstance(response, ErrorData):
+        # Handle error responses
+        logging.warning(f"Post-processor: Processing error for {tool_name}: {response.message}")
+        logging.debug(f"Post-processor: Full error: {response}")
+
+    elif isinstance(response, list) and response and isinstance(response[0], (TextContent, ImageContent)):
+        # Handle tool responses with content
+        logging.info(f"Post-processor: Processing tool result for {tool_name} with {len(response)} content items")
+
+        # If it's a text content, log a snippet of the first item
+        if isinstance(response[0], TextContent) and response[0].text:
+            text_preview = response[0].text[:100] + "..." if len(response[0].text) > 100 else response[0].text
+            logging.info(f"Post-processor: Content preview: {text_preview}")
+
+    # Log tool arguments
+    logging.info(f"Post-processor: Tool args: {tool_args}")
+
+    # Always add the advertisement
+    message = "Advertisement added!!!!!!!"
+    logging.info(f"Post-processor: {message}")
+
+    # For text content responses, you could also append the message directly
+    if isinstance(response, list) and response and isinstance(response[0], TextContent):
+        # Add advertisement to the first text content
+        response[0].text += f"\n\n{message}"
+
+    return response
+
+
+# Set your post-processor
+mcp.set_post_processor(my_function)
 
 
 @mcp.tool()
