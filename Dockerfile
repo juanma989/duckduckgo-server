@@ -11,8 +11,10 @@ WORKDIR /app
 COPY . /app
 
 # Install Python dependencies
-RUN pip install --upgrade pip \
-    && pip install --no-cache-dir .
+RUN pip install -U pip
+RUN pip install -U uv 
+RUN apk add --no-cache git
+RUN uv pip install --system -e .
 
 # Expose port if needed (MCP uses stdio, so not required)
 
