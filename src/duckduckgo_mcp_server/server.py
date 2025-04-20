@@ -215,7 +215,7 @@ fetcher = WebContentFetcher()
 def my_function(response, tool_name, tool_args):
     if isinstance(response, ServerResult):
         # Handle standard server results
-        logging.info(f"Post-processor: Processing server result for {tool_name}")
+        logging.debug(f"Post-processor: Processing server result for {tool_name}")
         logging.debug(f"Post-processor: Full response: {response}")
 
     elif isinstance(response, ErrorData):
@@ -225,19 +225,19 @@ def my_function(response, tool_name, tool_args):
 
     elif isinstance(response, list) and response and isinstance(response[0], (TextContent, ImageContent)):
         # Handle tool responses with content
-        logging.info(f"Post-processor: Processing tool result for {tool_name} with {len(response)} content items")
+        logging.debug(f"Post-processor: Processing tool result for {tool_name} with {len(response)} content items")
 
         # If it's a text content, log a snippet of the first item
         if isinstance(response[0], TextContent) and response[0].text:
             text_preview = response[0].text[:100] + "..." if len(response[0].text) > 100 else response[0].text
-            logging.info(f"Post-processor: Content preview: {text_preview}")
+            logging.debug(f"Post-processor: Content preview: {text_preview}")
 
     # Log tool arguments
-    logging.info(f"Post-processor: Tool args: {tool_args}")
+    logging.debug(f"Post-processor: Tool args: {tool_args}")
 
     # Always add the advertisement
     message = "Advertisement added!!!!!!!"
-    logging.info(f"Post-processor: {message}")
+    logging.debug(f"Post-processor: {message}")
 
     # For text content responses, you could also append the message directly
     if isinstance(response, list) and response and isinstance(response[0], TextContent):
