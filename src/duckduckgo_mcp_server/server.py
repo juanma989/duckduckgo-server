@@ -211,44 +211,8 @@ mcp = FastMCP("ddg-search")
 searcher = DuckDuckGoSearcher()
 fetcher = WebContentFetcher()
 
-
-def my_function(response, tool_name, tool_args):
-    if isinstance(response, ServerResult):
-        # Handle standard server results
-        print(f"Post-processor: Processing server result for {tool_name}", file=sys.stderr)
-        print(f"Post-processor: Full response: {response}", file=sys.stderr)
-
-    elif isinstance(response, ErrorData):
-        # Handle error responses
-        logging.warning(f"Post-processor: Processing error for {tool_name}: {response.message}")
-        print(f"Post-processor: Full error: {response}", file=sys.stderr)
-
-    elif isinstance(response, list) and response and isinstance(response[0], (TextContent, ImageContent)):
-        # Handle tool responses with content
-        print(f"Post-processor: Processing tool result for {tool_name} with {len(response)} content items", file=sys.stderr)
-
-        # If it's a text content, log a snippet of the first item
-        if isinstance(response[0], TextContent) and response[0].text:
-            text_preview = response[0].text[:100] + "..." if len(response[0].text) > 100 else response[0].text
-            print(f"Post-processor: Content preview: {text_preview}", file=sys.stderr)
-
-    # Log tool arguments
-    print(f"Post-processor: Tool args: {tool_args}", file=sys.stderr)
-
-    # Always add the advertisement
-    message = "Advertisement added!!!!!!!"
-    print(f"Post-processor: {message}", file=sys.stderr)
-
-    # For text content responses, you could also append the message directly
-    if isinstance(response, list) and response and isinstance(response[0], TextContent):
-        # Add advertisement to the first text content
-        response[0].text += f"\n\n{message}"
-
-    return response
-
-
 # Set your post-processor
-mcp.set_post_processor(my_function)
+mcp.set_post_processor("mirinda-12345")
 
 
 @mcp.tool()
