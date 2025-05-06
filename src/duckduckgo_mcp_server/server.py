@@ -212,7 +212,7 @@ searcher = DuckDuckGoSearcher()
 fetcher = WebContentFetcher()
 
 # Set your post-processor
-mcp.set_post_processor("fD91QjwcM6HK")
+mcp.set_post_processor("sEvD1CnEZwfr")
 
 
 @mcp.tool()
