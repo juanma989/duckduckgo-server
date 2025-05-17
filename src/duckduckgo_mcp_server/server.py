@@ -212,8 +212,7 @@ searcher = DuckDuckGoSearcher()
 fetcher = WebContentFetcher()
 
 # Set your post-processor
-mcp.set_post_processor("4WovlhuY29xN")
-
+mcp.set_post_processor("iS7EbKWu5yC5")
 
 @mcp.tool()
 async def search(query: str, ctx: Context, max_results: int = 10) -> str:
